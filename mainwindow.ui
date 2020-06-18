@@ -608,7 +608,7 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QListWidget" name="users_">
+      <widget class="QListWidget" name="userList_">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -631,39 +631,20 @@
         <string>UserName</string>
        </property>
       </widget>
-      <widget class="QFrame" name="userAvatar_">
+      <widget class="QLabel" name="userAvatar_">
        <property name="geometry">
         <rect>
          <x>200</x>
          <y>10</y>
-         <width>51</width>
-         <height>51</height>
+         <width>50</width>
+         <height>50</height>
         </rect>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>
-    </widget>
-    <widget class="QFrame" name="projectIcon_">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>91</width>
-       <height>91</height>
-      </rect>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
     </widget>
     <widget class="QLabel" name="projectName_">
      <property name="geometry">
@@ -779,6 +760,19 @@
      </property>
      <property name="text">
       <string>Active</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="projectLogo_">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>91</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>

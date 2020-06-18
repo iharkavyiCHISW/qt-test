@@ -17,6 +17,8 @@ public:
     explicit LoginDialog(const QUrl& url, QWidget *parent = nullptr);
     ~LoginDialog();
 
+    const QString& getAuthToken() const;
+
 signals:
     void autorized(const QString& token);
 
@@ -25,11 +27,10 @@ private:
     void resetError();
     bool checkEmail(const QString& email);
     bool checkPassword(const QString& pass);
-    bool getAuthToken(const std::string& rawReplyText);
 
 private slots:
     void on_loginButton_clicked();
-    void on_loginRequest_finished(QNetworkReply *reply);
+    void on_loginRequest_finished();
 
 private:
     Ui::LoginDialog *ui;
@@ -37,7 +38,6 @@ private:
     QUrl url_;
     QString authToken_; // result of login
     QNetworkAccessManager* manager_;
-    QByteArray data_; // used only for QNetworkAccessManager::post()
 };
 
 #endif // LOGINDIALOG_H

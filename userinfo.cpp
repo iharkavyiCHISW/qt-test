@@ -42,12 +42,12 @@ bool UserInfo::isOnline() const
     return isOnline_;
 }
 
-void UserInfo::setAvatar(const QBitmap &avatar)
+void UserInfo::setAvatar(const QPixmap& avatar)
 {
     avatar_ = avatar;
 }
 
-const QBitmap &UserInfo::getAvatar() const
+const QPixmap &UserInfo::getAvatar() const
 {
     return avatar_;
 }

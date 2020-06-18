@@ -15,11 +15,12 @@ LoginDialog::LoginDialog(const QUrl &url, QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
     setModal(true);
-    ui->errorText_->setHidden(true);
+
+    resetError();
+
     manager_ = new QNetworkAccessManager(this);
-    auto result = connect(manager_, &QNetworkAccessManager::finished, this, &LoginDialog::on_loginRequest_finished);
-    if (!result)
-        throw 0;
+
+    // TODO: remove this
     ui->emailLine_->setText("vitaliibondtest@gmail.com");
     ui->passLine_->setText("vitaliibondtest");
 }
@@ -27,6 +28,7 @@ LoginDialog::LoginDialog(const QUrl &url, QWidget *parent) :
 LoginDialog::~LoginDialog()
 {
     delete ui;
+    delete manager_;
 }
 
 void LoginDialog::setError(const QString &error)
@@ -81,8 +83,8 @@ void LoginDialog::on_loginButton_clicked()
     json["password"] = pass;
     QJsonDocument doc;
     doc.setObject(json);
-    data_ = doc.toJson();
-    request.setHeader(QNetworkRequest::ContentLengthHeader, data_.size());
+    auto data = doc.toJson();
+    request.setHeader(QNetworkRequest::ContentLengthHeader, data.size());
 
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/json");
     request.setRawHeader("Client-Timezone-Offset", "60");
@@ -90,12 +92,19 @@ void LoginDialog::on_loginButton_clicked()
     request.setRawHeader("Client-Company", "udimiteam");
     request.setHeader(QNetworkRequest::UserAgentHeader, "desktop");
 
-    manager_->post(request, data_);
+    auto reply = manager_->post(request, data);
+
+    auto result = connect(reply, &QNetworkReply::finished, this, &LoginDialog::on_loginRequest_finished);
+    assert(result);
 }
 
 
-void LoginDialog::on_loginRequest_finished(QNetworkReply *reply)
+void LoginDialog::on_loginRequest_finished()
 {
+    auto reply = qobject_cast<QNetworkReply*>(sender());
+    if (!reply)
+        throw;
+
     reply->deleteLater();
 
     if (reply->error() != QNetworkReply::NoError)

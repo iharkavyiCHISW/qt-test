@@ -2,7 +2,7 @@
 #define USERINFO_H
 
 #include <QString>
-#include <QBitmap>
+#include <QPixmap>
 
 class QJsonObject;
 
@@ -20,10 +20,11 @@ class UserInfo
     QString timeZone_;
     QString timeLast_;
 
-    QBitmap avatar_;
+    QPixmap avatar_;
 
 public:
     UserInfo(const QJsonObject& jsonUserInfo);
+    UserInfo() {}
 
     int getUserID() const;
     int getCompanyID() const;
@@ -32,8 +33,8 @@ public:
     const QString& getAvatarUrl() const;
     bool isOnline() const;
 
-    void setAvatar(const QBitmap& avatar);
-    const QBitmap& getAvatar() const;
+    void setAvatar(const QPixmap& avatar);
+    const QPixmap& getAvatar() const;
 
 };
 
