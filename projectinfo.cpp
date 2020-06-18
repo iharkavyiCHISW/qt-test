@@ -10,21 +10,11 @@ ProjectInfo::ProjectInfo(const QJsonObject &jsonProjectInfo)
     uid_ = jsonProjectInfo["uid"].toString();
     logoUrl_ = jsonProjectInfo["logo_url"].toString();
     position_ = jsonProjectInfo["position"].toInt();
-    isActive_ = jsonProjectInfo["is_active"].toBool();
-    isOwnerWatcher_ = jsonProjectInfo["is_owner_watcher"].toBool();
+    isActive_ = jsonProjectInfo["is_active"].toInt();
+    isOwnerWatcher_ = jsonProjectInfo["is_owner_watcher"].toInt();
     timeWeek_ = jsonProjectInfo["spent_time_week"].toString();
     timeMonth_ = jsonProjectInfo["spent_time_month"].toString();
     timeTotal_ = jsonProjectInfo["spent_time_all"].toString();
-    auto jsonUsers = jsonProjectInfo["users"];
-    if (!jsonUsers.isArray())
-        throw;
-    auto jsonUsersArray = jsonUsers.toArray();
-    for (const auto& jsonUser : jsonUsersArray)
-    {
-        if (!jsonUser.isObject())
-            throw;
-        users_.push_back(UserInfo(jsonUser.toObject()));
-    }
 }
 
 int ProjectInfo::getId() const
@@ -72,17 +62,27 @@ const QString &ProjectInfo::getTimeTotal() const
     return timeTotal_;
 }
 
-const QVector<UserInfo> &ProjectInfo::getUsers() const
+void ProjectInfo::addUser(int id)
+{
+    users_.push_back(id);
+}
+
+const QVector<int> &ProjectInfo::getUsers() const
 {
     return users_;
 }
 
-void ProjectInfo::setLogo(const QBitmap &logo)
+QVector<int> &ProjectInfo::getUsers()
+{
+    return users_;
+}
+
+void ProjectInfo::setLogo(const QPixmap& logo)
 {
     logo_ = logo;
 }
 
-const QBitmap &ProjectInfo::getLogo() const
+const QPixmap& ProjectInfo::getLogo() const
 {
     return logo_;
 }

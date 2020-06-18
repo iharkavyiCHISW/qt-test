@@ -3,7 +3,7 @@
 
 #include <QString>
 #include <QVector>
-#include <QBitmap>
+#include <QPixmap>
 
 #include "userinfo.h"
 
@@ -18,12 +18,12 @@ class ProjectInfo
     int position_;
     bool isActive_;
     bool isOwnerWatcher_;
-    QString timeWeek_;
-    QString timeMonth_;
-    QString timeTotal_;
-    QVector<UserInfo> users_;
+    QString timeWeek_ = "00:00:00";
+    QString timeMonth_ = "00:00:00";
+    QString timeTotal_ = "00:00:00";
+    QVector<int> users_;
 
-    QBitmap logo_;
+    QPixmap logo_;
 public:
     ProjectInfo(const QJsonObject& jsonProjectInfo);
 
@@ -36,10 +36,12 @@ public:
     const QString& getTimeWeek() const;
     const QString& getTimeMonth() const;
     const QString& getTimeTotal() const;
-    const QVector<UserInfo>& getUsers() const;
+    void addUser(int id);
+    const QVector<int>& getUsers() const;
+    QVector<int> &getUsers();
 
-    void setLogo(const QBitmap& logo);
-    const QBitmap& getLogo() const;
+    void setLogo(const QPixmap& logo);
+    const QPixmap& getLogo() const;
 };
 
 #endif // PROJECTINFO_H
